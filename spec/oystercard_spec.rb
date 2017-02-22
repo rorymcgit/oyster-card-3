@@ -3,7 +3,8 @@ require 'oystercard'
 describe Oystercard do
   subject(:card) {described_class.new}
   let(:top_up_amount) { 20 }
-  let(:station) { double }
+  let(:entry_station) { double :station}
+  let(:exit_station) { double :station}
 
   describe "#balance", :balance do
     it "has a balance" do
@@ -28,7 +29,7 @@ describe Oystercard do
   describe '#touch_in' do
     it 'expects in journey to be true' do
       card.top_up(top_up_amount)
-      card.touch_in(station)
+      card.touch_in(entry_station)
       expect(card.in_journey?).to eq(true)
     end
   end
@@ -45,13 +46,13 @@ describe Oystercard do
     end
 
     it 'returns true when in journey' do
-      card.touch_in(station)
+      card.touch_in(entry_station)
     expect(card.in_journey?).to eq(true)
   end
 
     it 'returns false when not in journey' do
-      card.touch_in(station)
-      card.touch_out(station)
+      card.touch_in(entry_station)
+      card.touch_out(exit_station)
       expect(card.in_journey?).to eq(false)
     end
   end
@@ -59,7 +60,7 @@ describe Oystercard do
   describe "#minimum_balance" do
     it "doesn't allow touch in when balance below £1" do
       card2 = described_class.new
-      expect{card2.touch_in(station)}.to raise_error "Not enough money."
+      expect{card2.touch_in(entry_station)}.to raise_error "Not enough money."
     end
   end
 
@@ -77,13 +78,13 @@ describe Oystercard do
     end
 
     it "remembers the entry station on touch in" do
-      card.touch_in(station)
-      expect(card.entry_station).to eq(station)
+      card.touch_in(entry_station)
+      expect(card.entry_station).to eq(entry_station)
     end
 
     it "sets entry station to nil on touch out" do
-      card.touch_in(station)
-      card.touch_out(station)
+      card.touch_in(entry_station)
+      card.touch_out(exit_station)
       expect(card.entry_station).to eq(nil)
     end
   end
@@ -103,4 +104,5 @@ describe Oystercard do
   end
 
 end
+
 end

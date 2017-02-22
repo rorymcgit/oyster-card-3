@@ -18,7 +18,7 @@ class Oystercard
 
   def touch_in(entry_station)
     raise "Not enough money." if @balance < MINIMUM_BALANCE
-    @journey = {}
+    @journey = {} #journey
     @journey[:entry] = entry_station
     @entry_station = entry_station
   end
@@ -42,16 +42,16 @@ class Oystercard
 
 end
 
-card = Oystercard.new
-card.top_up(40)
-card.touch_in("Whitechapel")
-
-card.touch_out("shoreditch")
-p "All Journeys: #{card.all_journeys}"
-
-
-p card.touch_in("Penge")
-
-p card.touch_out("Bank")
-
-card.all_journeys
+# card = Oystercard.new
+# card.top_up(40)
+# card.touch_in("Whitechapel")
+#
+# card.touch_out("shoreditch")
+# p "All Journeys: #{card.all_journeys}"
+#
+#
+# p card.touch_in("Penge")
+#
+# p card.touch_out("Bank")
+#
+# card.all_journeys
