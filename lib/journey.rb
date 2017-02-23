@@ -1,35 +1,33 @@
 class Journey
-attr_reader :journey
-  MINIMUM_FARE = 2.50
+
+  MINIMUM_FARE = 1
   PENALTY_FARE = 6
 
+  attr_reader :journey
+
   def initialize
-    @all_journeys = []
-    @touched_in = false
+    @journey = {}
+    @in_journey = false
   end
 
   def start_journey(entry_station)
-    @journey = {}
     @journey[:entry] = entry_station
-    @touched_in = true
-
+    @in_journey = true
   end
 
   def end_journey(exit_station)
     @journey[:exit] = exit_station
-    @all_journeys << @journey
-    @touched_in = false
+    @in_journey = false
   end
 
-  def start_journey_charge
-    PENALTY_FARE
+  def fare
+    return PENALTY_FARE if !@journey[:entry] || !@journey[:exit]
+    return MINIMUM_FARE
   end
 
-  def end_journey_charge
-    @touched_in ? MINIMUM_FARE : PENALTY_FARE
-  end
 
   def in_journey?
-    !!@touched_in
+    @in_journey
   end
+
 end
