@@ -7,8 +7,8 @@ describe Oystercard do
   let(:exit_station) { double :station}
 
   describe "#balance", :balance do
-    it "has a balance" do
-      expect(card.balance).not_to be(nil)
+    it "has a balance of zero" do
+      expect(card.balance).to eq 0
     end
 
     it "has a default balance" do
@@ -22,7 +22,7 @@ describe Oystercard do
 
     it "has a maximum limit of £90" do
       over_limit = described_class::LIMIT + 1
-      expect{card.top_up(over_limit)}.to raise_error "#{over_limit} pushes your balance over the £#{described_class::LIMIT} limit."
+      expect{card.top_up(over_limit)}.to raise_error "Maximum balance of #{Oystercard::LIMIT} exceeded"
     end
   end
 
@@ -60,7 +60,7 @@ describe Oystercard do
   describe "#minimum_balance" do
     it "doesn't allow touch in when balance below £1" do
       card2 = described_class.new
-      expect{card2.touch_in(entry_station)}.to raise_error "Not enough money."
+      expect{card2.touch_in(entry_station)}.to raise_error "Insufficient funds - minimum fare is £#{Oystercard::MINIMUM_FARE}, current balance is £#{card2.balance}"
     end
   end
 

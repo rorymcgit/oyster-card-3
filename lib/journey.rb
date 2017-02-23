@@ -5,7 +5,6 @@ class Journey
 
 
   def start_journey(entry_station)
-    # @journey = {}
     @entry_station = entry_station
   end
 
@@ -22,9 +21,6 @@ class Journey
   end
 
   def in_journey?
-    return false if @entry_station == nil && @exit_station == nil
-    return false if @entry_station && @exit_station
-    return true if @entry_station && @exit_station == nil
-    false
+    !!@entry_station
   end
 end

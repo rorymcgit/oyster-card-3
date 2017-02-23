@@ -11,20 +11,21 @@ class Oystercard
     @all_journeys = []
   end
 
-  def top_up(money)
-    raise "#{money} pushes your balance over the £#{LIMIT} limit." if money + @balance > LIMIT
-    @balance += money
+  def top_up(amount)
+    raise "Maximum balance of #{LIMIT} exceeded" if @balance + amount > LIMIT
+    raise "Unable to top-up below the amount of #{MINIMUM_BALANCE}" if amount < MINIMUM_BALANCE
+    @balance += amount
   end
 
-  def touch_in(entry_station)
-    raise "Not enough money." if @balance < MINIMUM_BALANCE
+  def touch_in(station)
+    raise "Insufficient funds - minimum fare is £#{MINIMUM_FARE}, current balance is £#{@balance}" unless sufficient_funds?
     @journey = {} #journey
-    @journey[:entry] = entry_station
-    @entry_station = entry_station
+    @journey[:entry_station] = station
+    @entry_station = station
   end
 
-  def touch_out(exit_station)
-    p @journey[:exit] = exit_station
+  def touch_out(station)
+    @journey[:exit] = station
     @all_journeys << @journey
     deduct(MINIMUM_FARE)
     @entry_station = nil
@@ -36,22 +37,12 @@ class Oystercard
 
   private
 
-  def deduct(fare)
-    @balance -= fare
+  def deduct(amount)
+    @balance -= amount
+  end
+
+  def sufficient_funds?
+    @balance >= MINIMUM_FARE
   end
 
 end
-
-# card = Oystercard.new
-# card.top_up(40)
-# card.touch_in("Whitechapel")
-#
-# card.touch_out("shoreditch")
-# p "All Journeys: #{card.all_journeys}"
-#
-#
-# p card.touch_in("Penge")
-#
-# p card.touch_out("Bank")
-#
-# card.all_journeys

@@ -33,7 +33,7 @@ let(:exit_station) {"Oxford Circus"}
       expect(journey.fare).to eq 6
     end
 
-    it ' gives a penalty fare of 6 if there was no exit station' do
+    it 'gives a penalty fare of 6 if there was no exit station' do
       journey.start_journey(entry_station)
       expect(journey.fare).to eq 6
     end
