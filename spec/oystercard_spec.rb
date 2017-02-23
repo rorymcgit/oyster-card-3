@@ -26,36 +26,36 @@ describe Oystercard do
     end
   end
 
-  describe '#touch_in' do
-    it 'expects in journey to be true' do
-      card.top_up(top_up_amount)
-      card.touch_in(entry_station)
-      expect(card.in_journey?).to eq(true)
-    end
-  end
+  # describe '#touch_in' do
+  #   it 'expects in journey to be true' do
+  #     card.top_up(top_up_amount)
+  #     card.touch_in(entry_station)
+  #     expect(card.in_journey?).to eq(true)
+  #   end
+  # end
+  #
+  # describe '#touch_out' do
+  #   it 'expects in journey to be false by default' do
+  #     expect(card.in_journey?).to eq(false)
+  #   end
+  # end
 
-  describe '#touch_out' do
-    it 'expects in journey to be false by default' do
-      expect(card.in_journey?).to eq(false)
-    end
-  end
-
-  describe '#in_journey?' do
-    before do
-      card.top_up(top_up_amount)
-    end
-
-    it 'returns true when in journey' do
-      card.touch_in(entry_station)
-    expect(card.in_journey?).to eq(true)
-  end
-
-    it 'returns false when not in journey' do
-      card.touch_in(entry_station)
-      card.touch_out(exit_station)
-      expect(card.in_journey?).to eq(false)
-    end
-  end
+  # describe '#in_journey?' do
+  #   before do
+  #     card.top_up(top_up_amount)
+  #   end
+  #
+  #   it 'returns true when in journey' do
+  #     card.touch_in(entry_station)
+  #   expect(card.in_journey?).to eq(true)
+  # end
+  #
+  #   it 'returns false when not in journey' do
+  #     card.touch_in(entry_station)
+  #     card.touch_out(exit_station)
+  #     expect(card.in_journey?).to eq(false)
+  #   end
+  # end
 
   describe "#minimum_balance" do
     it "doesn't allow touch in when balance below £1" do
