@@ -2,10 +2,10 @@ require 'journey'
 require 'oystercard'
 
 describe Journey do
-
-  let(:entry_station) {"Bank Station"}
-  let(:exit_station) {"Oxford Circus"}
   subject(:journey) { described_class.new }
+  let(:card) { double }
+  let(:entry_station) { double }
+  let(:exit_station) { double }
 
   describe '.start_journey' do
     it 'allows a journey to start and sets the entry station' do
@@ -22,19 +22,19 @@ describe Journey do
   end
 
   describe '.fare' do
-    it ' gives a penalty fare if no entry station was recorded' do
+    it 'gives a penalty fare if no entry station was recorded' do
       journey.end_journey(exit_station)
-      expect(journey.fare).to eq Journey::PENALTY_FARE
+      expect(journey.fare).to eq(described_class::PENALTY_FARE)
     end
     it 'gives a penalty fare if no exit station was recorded' do
       journey.start_journey(entry_station)
       journey.start_journey(entry_station)
-      expect(journey.fare).to eq Journey::PENALTY_FARE
+      expect(journey.fare).to eq(described_class::PENALTY_FARE)
     end
     it 'gives the minimum fare if the journey was completed' do
       journey.start_journey(entry_station)
       journey.end_journey(exit_station)
-      expect(journey.fare).to eq Journey::MINIMUM_FARE
+      expect(journey.fare).to eq(described_class::MINIMUM_FARE)
     end
   end
 
@@ -47,6 +47,19 @@ describe Journey do
       journey.start_journey(entry_station)
       journey.end_journey(exit_station)
       expect(journey.in_journey?).to be false
+    end
+  end
+
+  describe '#all_journeys' do
+
+    it 'checks to see if the journeys list is empty by default' do
+      expect(journey.all_journeys).to be_empty
+    end
+
+    it 'records a single journey in a hash, which is appended to an array' do
+      journey.start_journey(entry_station)
+      journey.end_journey(exit_station)
+      expect(journey.all_journeys.length).to eq(1)
     end
   end
 

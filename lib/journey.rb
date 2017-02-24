@@ -3,10 +3,11 @@ class Journey
   MINIMUM_FARE = 1
   PENALTY_FARE = 6
 
-  attr_reader :journey
+  attr_reader :journey, :all_journeys
 
   def initialize
     @journey = {}
+    @all_journeys = []
     @in_journey = false
   end
 
@@ -17,14 +18,14 @@ class Journey
 
   def end_journey(exit_station)
     @journey[:exit] = exit_station
+    @all_journeys << @journey
     @in_journey = false
   end
 
   def fare
-    return PENALTY_FARE if !@journey[:entry] || !@journey[:exit]
-    return MINIMUM_FARE
+    return PENALTY_FARE unless @journey[:entry] && @journey[:exit]
+    MINIMUM_FARE
   end
-
 
   def in_journey?
     @in_journey

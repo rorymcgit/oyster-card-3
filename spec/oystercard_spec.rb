@@ -1,7 +1,7 @@
 require 'oystercard'
 
 describe Oystercard do
-  subject(:card) {described_class.new}
+  subject(:card) { described_class.new }
   let(:top_up_amount) { 20 }
   let(:entry_station) { double :station}
   let(:exit_station) { double :station}
@@ -19,7 +19,7 @@ describe Oystercard do
     end
     it "cannot increase the balance above the limit" do
       over_limit = described_class::LIMIT + 1
-      expect{card.top_up(over_limit)}.to raise_error "Maximum balance of #{Oystercard::LIMIT} exceeded"
+      expect{card.top_up(over_limit)}.to raise_error "Maximum balance of #{described_class::LIMIT} exceeded"
     end
   end
 
@@ -34,21 +34,6 @@ describe Oystercard do
       card.top_up(top_up_amount)
       card.touch_in(entry_station)
       expect{card.touch_out(exit_station)}.to change{card.balance}.by(-Journey::MINIMUM_FARE)
-    end
-  end
-
-  describe '#all_journeys' do
-    before do
-      card.top_up(top_up_amount)
-    end
-
-    it 'checks to see if the journeys list is empty by default' do
-      expect(card.all_journeys).to be_empty
-    end
-    it 'records a single journey in a hash, which is appended to an array' do
-      card.touch_in("Kingston")
-      card.touch_out("Whitechapel")
-      expect(card.all_journeys.length).to eq(1)
     end
   end
 
