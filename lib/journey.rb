@@ -31,4 +31,5 @@ class Journey
     @in_journey
   end
 
+
 end
